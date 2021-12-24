@@ -1,0 +1,25 @@
+version: '3'
+services:
+  mongodb:
+    container_name: mongodb
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 5s
+      timeout: 5s
+      retries: 50
+    image: mongo:4.4.3
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - 27017:27017
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8.8-management
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+volumes:
+  rabbitmq-data:
+  mongodb-data:
