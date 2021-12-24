@@ -1,7 +1,19 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+import { MongoConnectorModule } from './modules/mongo-connector/mongo-connector.module';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        PORT: Joi.number().required(),
+        MONGO_URL: Joi.string().required(),
+        RABBITMQ_URL: Joi.string().required(),
+      }),
+    }),
+    MongoConnectorModule,
+  ],
   controllers: [],
   providers: [],
 })
