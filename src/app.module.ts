@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongoConnectorModule } from './modules/mongo-connector/mongo-connector.module';
+import { OrderModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MongoConnectorModule } from './modules/mongo-connector/mongo-connector.
       }),
     }),
     MongoConnectorModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [],
