@@ -1,5 +1,6 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { EventBusService } from '../event-bus/event-bus.service';
 import { MongoConnectorService } from '../mongo-connector/mongo-connector.service';
 import { Outbox } from '../outbox/outbox.schema';
 
@@ -8,6 +9,7 @@ export class MessageRelayService implements OnApplicationBootstrap {
   constructor(
     public readonly db: MongoConnectorService,
     public readonly config: ConfigService,
+    @Inject(EventBusService) public readonly eventBusService: EventBusService,
   ) {}
 
   async onApplicationBootstrap(): Promise<void> {
@@ -27,7 +29,8 @@ export class MessageRelayService implements OnApplicationBootstrap {
     );
     changeStream.on('change', async (change) => {
       const fullDocument = change.fullDocument;
-      console.log('🚀 Outbox: ', fullDocument);
+      console.log('Eventbus service: ', this.eventBusService);
+      console.log('Outbox: ', fullDocument);
     });
   }
 }

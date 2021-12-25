@@ -10,8 +10,10 @@ import { OrderModule } from './modules/orders/orders.module';
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
+        SERVICE_NAME: Joi.string().required(),
         MONGO_URL: Joi.string().required(),
         RABBITMQ_URL: Joi.string().required(),
+        RABBITMQ_EXCHANGE_NAME: Joi.string().required(),
       }),
     }),
     MongoConnectorModule,
