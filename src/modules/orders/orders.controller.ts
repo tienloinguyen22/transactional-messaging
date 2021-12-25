@@ -1,17 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
-import { OutboxService } from '../outbox/outbox.service';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CreateOrderPayload } from './orders.interface';
+import { Order } from './orders.schema';
+import { OrderService } from './orders.service';
 
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly outboxService: OutboxService) {}
+  constructor(private readonly orderService: OrderService) {}
 
-  @Get()
-  public async reindex(): Promise<{ success: boolean; message: string }> {
-    console.log('Outbox service: ', this.outboxService);
-
-    return {
-      success: true,
-      message: 'Order created',
-    };
+  @Post()
+  public async createOrder(
+    @Body() payload: CreateOrderPayload,
+  ): Promise<Order> {
+    return this.orderService.createOrder(payload);
   }
 }

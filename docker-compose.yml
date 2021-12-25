@@ -1,5 +1,15 @@
 version: '3'
 services:
+  mongoclient:
+    image: mongo:4.4.3
+    container_name: mongoclient
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/scripts
+    entrypoint:
+      - /scripts/initiate-replica-set.sh
   mongodb:
     container_name: mongodb
     healthcheck:
@@ -10,6 +20,9 @@ services:
     image: mongo:4.4.3
     volumes:
       - mongodb-data:/data/db
+    command: '--replSet rs0 --bind_ip_all'
+    environment:
+      MONGO_REPLICA_SET_NAME: rs0
     ports:
       - 27017:27017
   rabbitmq:
