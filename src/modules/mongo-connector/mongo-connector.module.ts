@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { OrderModel } from '../orders/orders.schema';
+import { OutboxModel } from '../outbox/outbox.schema';
 import { MongoConnectorService } from './mongo-connector.service';
 
 @Module({
@@ -15,7 +16,7 @@ import { MongoConnectorService } from './mongo-connector.service';
         };
       },
     }),
-    MongooseModule.forFeature([OrderModel]),
+    MongooseModule.forFeature([OrderModel, OutboxModel]),
   ],
   providers: [MongoConnectorService],
   exports: [MongoConnectorService],

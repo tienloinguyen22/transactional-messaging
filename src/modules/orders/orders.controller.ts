@@ -1,12 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
-import { OrderService } from './orders.service';
+import { OutboxService } from '../outbox/outbox.service';
 
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly outboxService: OutboxService) {}
 
   @Get()
   public async reindex(): Promise<{ success: boolean; message: string }> {
+    console.log('Outbox service: ', this.outboxService);
+
     return {
       success: true,
       message: 'Order created',

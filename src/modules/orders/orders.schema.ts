@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongoose';
 import { ModelDefinition, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { OrderStatuses } from './orders.interface';
 
 @Schema()
 export class Order {
@@ -12,10 +13,23 @@ export class Order {
   readonly total: number;
 
   @Prop({ type: Number, required: true })
-  readonly discount: string;
+  readonly discount: number;
 
   @Prop({ type: Number, required: true })
   readonly totalAfterDiscount: number;
+
+  @Prop({
+    type: String,
+    default: OrderStatuses.PENDING,
+    enum: [
+      OrderStatuses.PENDING,
+      OrderStatuses.CONFIRMED,
+      OrderStatuses.PREPARING,
+      OrderStatuses.DELIVERING,
+      OrderStatuses.DELIVERED,
+    ],
+  })
+  readonly status: string;
 
   @Prop({ type: Date })
   readonly created: Date;
