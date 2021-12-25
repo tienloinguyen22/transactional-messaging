@@ -29,8 +29,9 @@ export class MessageRelayService implements OnApplicationBootstrap {
     );
     changeStream.on('change', async (change) => {
       const fullDocument = change.fullDocument;
-      console.log('Eventbus service: ', this.eventBusService);
-      console.log('Outbox: ', fullDocument);
+      const payload = JSON.parse(fullDocument.payload);
+      const routingKey = fullDocument.event;
+      this.eventBusService.publish(payload, routingKey);
     });
   }
 }
